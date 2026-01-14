@@ -5,19 +5,20 @@
     <meta charset="UTF-8">
     <title>2 Web Workers Demo</title>
 </head>
+<!-- IT LOOKS UGLY -->
 
 <body>
     <h1>Standard Web Workers</h1>
 
-    <div>
+    <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
         <h3>Worker 1: Heavy Sum</h3>
         <p>Result: <span id="sumResult">0</span></p>
         <button onclick="startSum()">Calculate Huge Sum</button>
     </div>
 
-    <div>
+    <div style="border:1px solid #ccc; padding:10px;">
         <h3>Worker 2: Background Color</h3>
-        <div></div>
+        <div id="box" style="width:100px; height:100px; border:1px solid black; background:#fff;"></div>
         <br>
         <button onclick="changeColor()">Change Color</button>
     </div>
@@ -29,14 +30,12 @@
             document.getElementById("sumResult").innerText = "Calculating...";
             workerSum.postMessage("start");
         }
-
         workerSum.onmessage = function (e) {
             document.getElementById("sumResult").innerText = e.data;
         };
         function changeColor() {
             workerColor.postMessage("start");
         }
-
         workerColor.onmessage = function (e) {
             document.getElementById("box").style.backgroundColor = e.data;
         };
