@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Video Controls</title>
+    <style>
+        .controls {
+            margin-top: 10px;
+        }
+
+        button,
+        input {
+            margin: 5px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+
+    <video id="myVid" width="600" style="border: 1px solid #ccc;">
+        <source src="frozen.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <div class="controls">
+        <input type="range" id="seek-bar" value="0" style="width: 300px;">
+        <span id="time-display">0:00 / 0:00</span>
+        <br>
+        <button onclick="playVid()">Play</button>
+        <button onclick="stopVid()">Stop</button>
+        <button onclick="skip(-5)">«</button>
+        <button onclick="skip(-1)">&lt;</button>
+        <button onclick="skip(1)">&gt;</button>
+        <button onclick="skip(5)">»</button>
+        <button onclick="toggleMute()">Mute</button>
+
+        <label>Speed:</label>
+        <input type="range" id="speed-bar" min="0.5" max="2" step="0.1" value="1" onchange="changeSpeed(this.value)">
+
+        <label>Volume:</label>
+        <input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1" onchange="changeVolume(this.value)">
+    </div>
+
+    <script>
+        const vid = document.getElementById("myVid");
+        const seekBar = document.getElementById("seek-bar");
+        const timeDisplay = document.getElementById("time-display");
+
+        function playVid() {
+            if (vid.paused) vid.play();
+            else vid.pause();
+        }
+
+        function stopVid() {
+            vid.pause();
+            vid.currentTime = 0;
+        }
+
+        function skip(value) {
+            vid.currentTime += value;
+        }
+
+        function changeSpeed(val) {
+            vid.playbackRate = val;
+        }
+
+        function changeVolume(val) {
+            vid.volume = val;
+        }
+
+        function toggleMute() {
+            vid.muted = !vid.muted;
+        }
+
+        vid.ontimeupdate = function () {
+            const minutes = Math.floor(vid.currentTime / 60);
+            const seconds = Math.floor(vid.currentTime % 60).toString().padStart(2, '0');
+            const totalMin = Math.floor(vid.duration / 60) || 0;
+            const totalSec = Math.floor(vid.duration % 60).toString().padStart(2, '0') || "00";
+
+            timeDisplay.innerText = `${minutes}:${seconds} / ${totalMin}:${totalSec}`;
+            seekBar.value = (vid.currentTime / vid.duration) * 100 || 0;
+        };
+
+        seekBar.oninput = function () {
+            const time = (this.value / 100) * vid.duration;
+            vid.currentTime = time;
+        };
+    </script>
+</body>
+
+</html>

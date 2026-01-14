@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Color Range</title>
+    <style>
+        /* Makes it look tiny better but not necessary at all */
+        .container {
+            padding: 20px;
+            font-family: sans-serif;
+        }
+
+        .slider-row {
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: inline-block;
+            width: 60px;
+        }
+
+        #target-text {
+            margin-top: 30px;
+            font-size: 24px;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="slider-row">
+            <label>Red</label>
+            <input type="range" id="r" min="0" max="255" value="0" oninput="updateColor()">
+        </div>
+        <div class="slider-row">
+            <label>Green</label>
+            <input type="range" id="g" min="0" max="255" value="0" oninput="updateColor()">
+        </div>
+        <div class="slider-row">
+            <label>Blue</label>
+            <input type="range" id="b" min="0" max="255" value="0" oninput="updateColor()">
+        </div>
+
+        <p id="target-text">Change the 3 Color Ranges above and observe my color Change</p>
+    </div>
+
+    <script>
+        function updateColor() {
+            const r = document.getElementById('r').value;
+            const g = document.getElementById('g').value;
+            const b = document.getElementById('b').value;
+
+            const colorString = `rgb(${r}, ${g}, ${b})`;
+            document.getElementById('target-text').style.color = colorString;
+        }
+    </script>
+</body>
+
+</html>
