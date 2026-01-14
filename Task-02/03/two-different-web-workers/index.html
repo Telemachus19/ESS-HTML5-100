@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>2 Web Workers Demo</title>
+</head>
+
+<body>
+    <h1>Standard Web Workers</h1>
+
+    <div>
+        <h3>Worker 1: Heavy Sum</h3>
+        <p>Result: <span id="sumResult">0</span></p>
+        <button onclick="startSum()">Calculate Huge Sum</button>
+    </div>
+
+    <div>
+        <h3>Worker 2: Background Color</h3>
+        <div></div>
+        <br>
+        <button onclick="changeColor()">Change Color</button>
+    </div>
+
+    <script>
+        // Initialize Workers from separate files
+        const workerSum = new Worker("sumWorker.js");
+        const workerColor = new Worker("colorWorker.js");
+
+        // Worker 1 Logic
+        function startSum() {
+            document.getElementById("sumResult").innerText = "Calculating...";
+            workerSum.postMessage("start");
+        }
+
+        workerSum.onmessage = function (e) {
+            document.getElementById("sumResult").innerText = e.data;
+        };
+
+        // --- Worker 2 Logic ---
+        function changeColor() {
+            workerColor.postMessage("start");
+        }
+
+        workerColor.onmessage = function (e) {
+            document.getElementById("box").style.backgroundColor = e.data;
+        };
+    </script>
+</body>
+
+</html>
