@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pythagorean Calculator</title>
+</head>
+
+<body>
+    <h3>Pythagorean Theorem</h3>
+
+    <svg width="200" height="200" style="border: 1px solid #eee;">
+        <polygon points="40,160 160,160 160,40" style="fill:red; stroke:black; stroke-width:1" />
+        <text x="90" y="175">a</text>
+        <text x="170" y="100">b</text>
+        <text x="90" y="90">c</text>
+    </svg>
+
+    <div>
+        <p>According to Pythagoras theorem:</p>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mrow>
+                <mi>c</mi>
+                <mo>=</mo>
+                <msqrt>
+                    <mrow>
+                        <msup>
+                            <mi>a</mi>
+                            <mn>2</mn>
+                        </msup>
+                        <mo>+</mo>
+                        <msup>
+                            <mi>b</mi>
+                            <mn>2</mn>
+                        </msup>
+                    </mrow>
+                </msqrt>
+            </mrow>
+        </math>
+    </div>
+
+    <div style="margin-top:20px;">
+        <label>a: <input type="number" id="inputA"></label><br><br>
+        <label>b: <input type="number" id="inputB"></label><br><br>
+        <button onclick="calculate()">Calculate C</button>
+        <p>Result c = <span id="result">?</span></p>
+    </div>
+    <!-- This is an additional thing for fun, just calculate the c :) -->
+    <script>
+        function calculate() {
+            const a = parseFloat(document.getElementById('inputA').value);
+            const b = parseFloat(document.getElementById('inputB').value);
+            if (!isNaN(a) && !isNaN(b)) {
+                const c = Math.sqrt((a * a) + (b * b));
+                document.getElementById('result').innerText = c.toFixed(2);
+            } else {
+                alert("Please enter valid numbers");
+            }
+        }
+    </script>
+</body>
+
+</html>
