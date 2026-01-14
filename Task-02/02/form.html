@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add User Form</title>
+</head>
+
+<body>
+
+    <h2>Add New User</h2>
+
+    <form id="userForm">
+        <label>Username:</label>
+        <input type="text" id="username" required>
+
+        <button type="submit">Save User</button>
+    </form>
+
+    <a href="table.html">View Users Table &rarr;</a>
+
+    <script>
+        const form = document.getElementById('userForm');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const userObj = {
+                name: document.getElementById('username').value,
+            };
+
+            const storedUsers = JSON.parse(localStorage.getItem('usersList')) || [];
+            storedUsers.push(userObj);
+            localStorage.setItem('usersList', JSON.stringify(storedUsers));
+            alert("User Saved!");
+            window.location.href = "table.html";
+        });
+    </script>
+
+</body>
+
+</html>
