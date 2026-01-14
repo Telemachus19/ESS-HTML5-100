@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Live Map Tracking</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Live Location Map</h2>
+
+        <div class="status">
+            Lat: <span id="lat">0</span> | Lon: <span id="lon">0</span>
+            <br>
+            <span id="msg">'watchPosition' to track location</span>
+        </div>
+
+        <button onclick="startWatching()">WatchPosition</button>
+        <button onclick="stopWatching()">clearWatch</button>
+
+        <iframe id="mapFrame" src="" allowfullscreen></iframe>
+    </div>
+
+    <script>
+        let watchID = null;
+        const mapFrame = document.getElementById('mapFrame');
+        const latText = document.getElementById('lat');
+        const lonText = document.getElementById('lon');
+        const msgText = document.getElementById('msg');
+
+        function startWatching() {
+            if (navigator.geolocation) {
+                watchID = navigator.geolocation.watchPosition(updateMap, handleError);
+                msgText.innerText = "watching";
+                msgText.style.color = "green";
+            } else {
+                alert("Geolocation is not supported by your browser.");
+            }
+        }
+
+        function updateMap(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            latText.innerText = lat;
+            lonText.innerText = lon;
+            const mapUrl = `https://maps.google.com/maps?q=${lat},${lon}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+            mapFrame.src = mapUrl;
+        }
+
+        function stopWatching() {
+            if (watchID !== null) {
+                navigator.geolocation.clearWatch(watchID);
+                watchID = null;
+                msgText.innerText = "Tracking Stopped.";
+                msgText.style.color = "red";
+            }
+        }
+
+        function handleError(error) {
+            msgText.innerText = "Error: " + error.message;
+        }
+    </script>
+
+</body>
+
+</html>
